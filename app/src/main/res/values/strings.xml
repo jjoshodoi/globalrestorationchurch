@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">globalrestorationchurch</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_sermons">Sermons</string>
+    <string name="title_calendar">Calendar</string>
+    <string name="title_giving">Giving</string>
+    <string name="title_connect">Connect</string>
+
 </resources>
