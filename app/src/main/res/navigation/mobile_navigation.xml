@@ -24,7 +24,7 @@
         tools:layout="@layout/fragment_notifications" />
 
     <fragment
-        android:id="@+id/connect"
+        android:id="@+id/navigation_connect"
         android:name="com.example.globalrestorationchurch.ui.connect.Connect"
         android:label="connect_fragment"
         tools:layout="@layout/connect_fragment" />
