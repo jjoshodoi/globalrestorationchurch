@@ -5,4 +5,6 @@
     <string name="title_giving">Giving</string>
     <string name="title_connect">Connect</string>
     <string name="title_signin">Sign In</string>
+    <string name="title_chat">Chat</string>
+
 </resources>
