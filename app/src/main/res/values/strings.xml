@@ -2,6 +2,8 @@
     <string name="app_name">globalrestorationchurch</string>
     <string name="title_sermons">Sermons</string>
     <string name="title_calendar">Calendar</string>
-
-    <string name="title_test">Test</string>
+    <string name="title_giving">Giving</string>
+    <string name="title_connect">Connect</string>
+    <string name="title_signin">Sign In</string>
+    <string name="title_chat">Chat</string>
 </resources>
