@@ -22,4 +22,10 @@
         android:name="com.example.globalrestorationchurch.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
+
+    <fragment
+        android:id="@+id/connect"
+        android:name="com.example.globalrestorationchurch.ui.connect.Connect"
+        android:label="connect_fragment"
+        tools:layout="@layout/connect_fragment" />
 </navigation>
