@@ -4,5 +4,6 @@
     <string name="title_calendar">Calendar</string>
     <string name="title_giving">Giving</string>
     <string name="title_connect">Connect</string>
+    <string name="title_chat">Chat</string>
 
 </resources>
