@@ -3,14 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.BlankFragment">
+    tools:context=".UserDetails">
 
     <ImageView
         android:layout_margin="20dp"
         android:layout_centerHorizontal="true"
         android:id="@+id/profile_image"
+        android:background="@android:color/holo_red_light"
         android:layout_width="150dp"
-        android:layout_height="150dp" />
+        android:layout_height="150dp"
+        android:contentDescription="TODO" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_margin="10dp"
@@ -31,7 +33,7 @@
         android:layout_height="wrap_content" />
     <Button
         android:layout_width="140dp"
-        android:text="SIGN OUT"
+        android:text="@string/sign_out"
         android:id="@+id/sign_out"
         android:layout_marginBottom="50dp"
         android:layout_centerHorizontal="true"
