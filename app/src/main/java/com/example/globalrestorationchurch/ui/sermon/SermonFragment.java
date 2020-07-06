@@ -1,23 +1,20 @@
 package com.example.globalrestorationchurch.ui.sermon;
 
-import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.globalrestorationchurch.MainActivity;
 import com.example.globalrestorationchurch.R;
 
 import org.json.JSONArray;
@@ -29,33 +26,45 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.Callable;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class SermonFragment extends Fragment {
 
+    private static final String API_KEY = "AIzaSyAkWwsGfbqMay48tO1xSWHEss9YQsW5f_o";
+    private static final String PLAYLISTS = "https://www.googleapis.com/youtube/v3/playlistItems?part=contentDetails&playlistId=PL21rEW-r8cqeumA2WciZ77zUVEycwK-C7&key=" + API_KEY;
+    ArrayList<String> playlistItems;
     private SermonViewModel homeViewModel;
-
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
-
+    private ArrayList<String> videoUrls;
     private String[] myDataset = {"pej", "poj", "D'banj", "Frank"};
 
-    private static final String API_KEY = "AIzaSyAkWwsGfbqMay48tO1xSWHEss9YQsW5f_o";
-    private static final String PLAYLISTS = "https://www.googleapis.com/youtube/v3/playlistItems?part=contentDetails&playlistId=PL21rEW-r8cqeumA2WciZ77zUVEycwK-C7&key=" + API_KEY;
+    public SermonFragment() {
+        new TaskRunner().executeAsync(new LongRunningPlaylistTask(PLAYLISTS), (data) -> {
 
+//            Log.e("KEY", String.valueOf(data));
+            this.playlistItems = data;
 
-//    private SermonDetails[] myDataset = {};
+//            loadingLiveData.setValue(false);
+//            dataLiveData.setValue(data);
+        });
+
+//        new TaskRunner().executeAsync(new LongRunningVideoTask(playlistItems.get(0)), (data) -> {
+//            Log.e("KEY", String.valueOf(data));
+//        });
+    }
+
+    //    private SermonDetails[] myDataset = {};
     static String getVideoURL(String id) {
         return "https://www.googleapis.com/youtube/v3/videos?id=" + id + "&part=snippet,contentDetails,statistics,status&key=" + API_KEY;
     }
-
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -71,7 +80,7 @@ public class SermonFragment extends Fragment {
 //        });
 
 
-        new JsonTask().execute(PLAYLISTS);
+//        new JsonTask().execute(PLAYLISTS);
 
 
         setUpRecycler(root);
@@ -95,18 +104,148 @@ public class SermonFragment extends Fragment {
         recyclerView.setAdapter(mAdapter);
     }
 
+    static class JsonTask extends AsyncTask<String, String, String> {
+
+
+        protected String doInBackground(String... params) {
+
+            HttpURLConnection connection = null;
+            BufferedReader reader = null;
+
+            try {
+                URL url = new URL(params[0]);
+                connection = (HttpURLConnection) url.openConnection();
+                connection.connect();
+
+                InputStream stream = connection.getInputStream();
+
+                reader = new BufferedReader(new InputStreamReader(stream));
+
+                StringBuilder buffer = new StringBuilder();
+                String line = "";
+
+                while ((line = reader.readLine()) != null) {
+                    buffer.append(line).append("\n");
+//                Log.d("Response: ", "> " + line);   //here u ll get whole response...... :-)
+
+                }
+
+                return buffer.toString();
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (connection != null) {
+                    connection.disconnect();
+                }
+                try {
+                    if (reader != null) {
+                        reader.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+//        Log.e("tag", result);
+            ArrayList<String> temp = parseResult(result);
+
+        }
+
+        private ArrayList<String> parseResult(String playlist) {
+            ArrayList<String> details = new ArrayList<>();
+            try {
+                JSONObject jsonObject = new JSONObject(playlist);
+                JSONArray style = jsonObject.getJSONArray("items");
+                for (int i = 0; i < style.length(); i++) {
+
+                    JSONObject content = style.getJSONObject(i).getJSONObject("contentDetails");
+                    String id = content.getString("videoId");
+                    Log.e("e", SermonFragment.getVideoURL(id));
+
+                    details.add(SermonFragment.getVideoURL(id));
+                }
+
+            } catch (JSONException err) {
+                Log.d("Error", err.toString());
+            }
+            return details;
+        }
+
+    }
 
 }
 
-class JsonTask extends AsyncTask<String, String, String> {
+class TaskRunner {
+    // Sets the amount of time an idle thread waits before terminating
+    private static final int KEEP_ALIVE_TIME = 1;
+    // Sets the Time Unit to seconds
+    private static final TimeUnit KEEP_ALIVE_TIME_UNIT = TimeUnit.SECONDS;
+    /*
+     * Gets the number of available cores
+     * (not always the same as the maximum number of cores)
+     */
+    private static int NUMBER_OF_CORES = Runtime.getRuntime().availableProcessors();
+    //    private final Executor executor = Executors.newSingleThreadExecutor(); // change according to your requirements
+    private final Handler handler = new Handler(Looper.getMainLooper());
+    // Instantiates the queue of Runnables as a LinkedBlockingQueue
+    private final BlockingQueue<Runnable> workQueue = new LinkedBlockingQueue<Runnable>();
+    // Creates a thread pool manager
+    ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(
+            NUMBER_OF_CORES,       // Initial pool size
+            NUMBER_OF_CORES,       // Max pool size
+            KEEP_ALIVE_TIME,
+            KEEP_ALIVE_TIME_UNIT,
+            workQueue
+    );
 
-    protected String doInBackground(String... params) {
+    public <R> void executeAsync(Callable<R> callable, Callback<R> callback) {
+        threadPoolExecutor.execute(() -> {
+            final R result;
+            try {
+                result = callable.call();
+                handler.post(() -> callback.onComplete(result));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        });
+
+
+    }
+
+    public interface Callback<R> {
+        void onComplete(R result);
+    }
+}
+
+class LongRunningVideoTask implements Callable<String> {
+    private final String input;
+
+    public LongRunningVideoTask(String input) {
+        this.input = input;
+    }
+
+    @Override
+    public String call() throws Exception {
+        String videoJSON = doInBackground(input);
+//        Log.e("TAG", videoJSON);
+        return videoJSON;
+    }
+
+    private String doInBackground(String playlists) {
 
         HttpURLConnection connection = null;
         BufferedReader reader = null;
 
         try {
-            URL url = new URL(params[0]);
+            URL url = new URL(playlists);
             connection = (HttpURLConnection) url.openConnection();
             connection.connect();
 
@@ -114,20 +253,70 @@ class JsonTask extends AsyncTask<String, String, String> {
 
             reader = new BufferedReader(new InputStreamReader(stream));
 
-            StringBuffer buffer = new StringBuffer();
-            String line = "";
+            StringBuilder buffer = new StringBuilder();
+            String line;
 
             while ((line = reader.readLine()) != null) {
-                buffer.append(line+"\n");
+                buffer.append(line).append("\n");
 //                Log.d("Response: ", "> " + line);   //here u ll get whole response...... :-)
-
             }
-
             return buffer.toString();
 
-
-        } catch (MalformedURLException e) {
+        } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            if (connection != null) {
+                connection.disconnect();
+            }
+            try {
+                if (reader != null) {
+                    reader.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+}
+
+class LongRunningPlaylistTask implements Callable<ArrayList<String>> {
+    private final String input;
+
+    public LongRunningPlaylistTask(String input) {
+        this.input = input;
+    }
+
+    @Override
+    public ArrayList<String> call() {
+        // Some long running task
+        String playlistJSON = doInBackground(input);
+        return parseResult(playlistJSON);
+    }
+
+    private String doInBackground(String playlists) {
+
+        HttpURLConnection connection = null;
+        BufferedReader reader = null;
+
+        try {
+            URL url = new URL(playlists);
+            connection = (HttpURLConnection) url.openConnection();
+            connection.connect();
+
+            InputStream stream = connection.getInputStream();
+
+            reader = new BufferedReader(new InputStreamReader(stream));
+
+            StringBuilder buffer = new StringBuilder();
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+                buffer.append(line).append("\n");
+//                Log.d("Response: ", "> " + line);   //here u ll get whole response...... :-)
+            }
+            return buffer.toString();
+
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -145,13 +334,6 @@ class JsonTask extends AsyncTask<String, String, String> {
         return null;
     }
 
-    @Override
-    protected void onPostExecute(String result) {
-        super.onPostExecute(result);
-//        Log.e("tag", result);
-        ArrayList<String> temp = parseResult(result);
-    }
-
     private ArrayList<String> parseResult(String playlist) {
         ArrayList<String> details = new ArrayList<>();
         try {
@@ -161,16 +343,14 @@ class JsonTask extends AsyncTask<String, String, String> {
 
                 JSONObject content = style.getJSONObject(i).getJSONObject("contentDetails");
                 String id = content.getString("videoId");
-                Log.e("e", SermonFragment.getVideoURL(id));
+//                Log.e("e", SermonFragment.getVideoURL(id));
 
                 details.add(SermonFragment.getVideoURL(id));
             }
 
-
-        } catch (JSONException err){
+        } catch (JSONException err) {
             Log.d("Error", err.toString());
         }
         return details;
     }
-
 }
