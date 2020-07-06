@@ -41,6 +41,14 @@ public class SermonFragment extends Fragment {
 //            }
 //        });
 
+
+
+        setUpRecycler(root);
+
+        return root;
+    }
+
+    private void setUpRecycler(View root) {
         recyclerView = (RecyclerView) root.findViewById(R.id.my_recycler_view);
 
         // use this setting to improve performance if you know that changes
@@ -54,7 +62,6 @@ public class SermonFragment extends Fragment {
         // specify an adapter (see also next example)
         mAdapter = new MyAdapter(myDataset);
         recyclerView.setAdapter(mAdapter);
-
-        return root;
     }
+
 }
