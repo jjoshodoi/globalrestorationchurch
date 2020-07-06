@@ -1,6 +1,5 @@
 package com.example.globalrestorationchurch.ui.connect;
 
-import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
