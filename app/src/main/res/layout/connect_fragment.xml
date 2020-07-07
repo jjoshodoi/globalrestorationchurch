@@ -7,7 +7,6 @@
     tools:context=".ui.connect.Connect">
 
     <TextView
-        android:id="@+id/text_connect"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -21,7 +20,6 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.gms.maps.MapView
-        android:id="@+id/mapView"
         android:layout_width="285dp"
         android:layout_height="270dp"
         app:layout_constraintBottom_toBottomOf="parent"

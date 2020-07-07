@@ -1,5 +1,6 @@
 package com.example.globalrestorationchurch.ui.connect;
 
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
@@ -31,7 +32,8 @@ public class Connect extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(ConnectViewModel.class);
+//        mViewModel = ViewModelProviders.of(this).get(ConnectViewModel.class);
+        mViewModel = new ViewModelProvider(this).get(ConnectViewModel.class);
         // TODO: Use the ViewModel
     }
 
