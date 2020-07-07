@@ -38,79 +38,80 @@ public class SermonViewModel extends ViewModel {
             details.setValue(data);
         });
     }
-}
 
-class LongRunningPlaylistTask implements Callable<ArrayList<SermonDetails>> {
-    private final String input;
+    static class LongRunningPlaylistTask implements Callable<ArrayList<SermonDetails>> {
+        private final String input;
 
-    public LongRunningPlaylistTask(String input) {
-        this.input = input;
-    }
+        public LongRunningPlaylistTask(String input) {
+            this.input = input;
+        }
 
-    @Override
-    public ArrayList<SermonDetails> call() {
-        // Some long running task
-        String playlistJSON = doInBackground(input);
-        return parseResult(playlistJSON);
-    }
+        @Override
+        public ArrayList<SermonDetails> call() {
+            // Some long running task
+            String playlistJSON = doInBackground(input);
+            return parseResult(playlistJSON);
+        }
 
-    private String doInBackground(String playlists) {
+        private String doInBackground(String playlists) {
 
-        HttpURLConnection connection = null;
-        BufferedReader reader = null;
+            HttpURLConnection connection = null;
+            BufferedReader reader = null;
 
-        try {
-            URL url = new URL(playlists);
-            connection = (HttpURLConnection) url.openConnection();
-            connection.connect();
-
-            InputStream stream = connection.getInputStream();
-
-            reader = new BufferedReader(new InputStreamReader(stream));
-
-            StringBuilder buffer = new StringBuilder();
-            String line;
-
-            while ((line = reader.readLine()) != null) {
-                buffer.append(line).append("\n");
-            }
-            return buffer.toString();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (connection != null) {
-                connection.disconnect();
-            }
             try {
-                if (reader != null) {
-                    reader.close();
+                URL url = new URL(playlists);
+                connection = (HttpURLConnection) url.openConnection();
+                connection.connect();
+
+                InputStream stream = connection.getInputStream();
+
+                reader = new BufferedReader(new InputStreamReader(stream));
+
+                StringBuilder buffer = new StringBuilder();
+                String line;
+
+                while ((line = reader.readLine()) != null) {
+                    buffer.append(line).append("\n");
                 }
+                return buffer.toString();
+
             } catch (IOException e) {
                 e.printStackTrace();
+            } finally {
+                if (connection != null) {
+                    connection.disconnect();
+                }
+                try {
+                    if (reader != null) {
+                        reader.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
+            return null;
         }
-        return null;
-    }
 
-    private ArrayList<SermonDetails> parseResult(String playlist) {
-        ArrayList<SermonDetails> details = new ArrayList<>();
-        try {
-            JSONObject jsonObject = new JSONObject(playlist);
-            JSONArray style = jsonObject.getJSONArray("items");
-            for (int i = 0; i < style.length(); i++) {
-                JSONObject snippet = style.getJSONObject(i).getJSONObject("snippet");
-                String id = snippet.getJSONObject("resourceId").getString("videoId");
-                String title = snippet.getString("title");
-                String description = snippet.getString("description");
-                String thumbnail = snippet.getJSONObject("thumbnails").getJSONObject("maxres").getString("url");
-                String published = snippet.getString("publishedAt");
+        private ArrayList<SermonDetails> parseResult(String playlist) {
+            ArrayList<SermonDetails> details = new ArrayList<>();
+            try {
+                JSONObject jsonObject = new JSONObject(playlist);
+                JSONArray style = jsonObject.getJSONArray("items");
+                for (int i = 0; i < style.length(); i++) {
+                    JSONObject snippet = style.getJSONObject(i).getJSONObject("snippet");
+                    String id = snippet.getJSONObject("resourceId").getString("videoId");
+                    String title = snippet.getString("title");
+                    String description = snippet.getString("description");
+                    String thumbnail = snippet.getJSONObject("thumbnails").getJSONObject("maxres").getString("url");
+                    String published = snippet.getString("publishedAt");
 
-                details.add(new SermonDetails(id, title, description, thumbnail, published));
+                    details.add(new SermonDetails(id, title, description, thumbnail, published));
+                }
+            } catch (JSONException err) {
+                Log.e("Error", err.toString());
             }
-        } catch (JSONException err) {
-            Log.e("Error", err.toString());
+            return details;
         }
-        return details;
     }
 }
+

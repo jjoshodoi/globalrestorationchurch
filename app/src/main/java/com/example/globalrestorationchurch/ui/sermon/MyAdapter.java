@@ -13,7 +13,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.globalrestorationchurch.R;
 import com.squareup.picasso.Picasso;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     private ArrayList<SermonDetails> mDataset;
@@ -35,8 +38,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         TextView titleTv = cardView.findViewById(R.id.title_text);
         TextView descriptionTv = cardView.findViewById(R.id.description_text);
         TextView creationTV = cardView.findViewById(R.id.creation_text);
-
-
 
         return new MyViewHolder(cardView, thumbnailIv, titleTv, descriptionTv, creationTV);
     }
