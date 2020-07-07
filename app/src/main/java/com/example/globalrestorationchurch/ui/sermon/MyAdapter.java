@@ -2,34 +2,43 @@ package com.example.globalrestorationchurch.ui.sermon;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.globalrestorationchurch.R;
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
-    private String[] mDataset;
+    private ArrayList<SermonDetails> mDataset;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
-        public CardView textView;
-        public TextView titleView;
+        public CardView root;
+        public ImageView thumbnailIv;
+        public TextView titleTv;
+        public TextView descriptionTv;
+        public TextView creationTV;
 
-        public MyViewHolder(CardView v, TextView tv) {
-            super(v);
-            textView = v;
-            titleView = tv;
+        public MyViewHolder(CardView root, ImageView thumbnailIv, TextView titleTv, TextView descriptionTv, TextView creationTV) {
+            super(root);
+            this.root = root;
+            this.thumbnailIv = thumbnailIv;
+            this.titleTv = titleTv;
+            this.descriptionTv = descriptionTv;
+            this.creationTV = creationTV;
         }
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public MyAdapter(String[] myDataset) {
+    public MyAdapter(ArrayList<SermonDetails> myDataset) {
         mDataset = myDataset;
     }
 
@@ -43,9 +52,12 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         CardView v = (CardView) LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.sermon_view, parent, false);
 
-        TextView tv = v.findViewById(R.id.title_text);
+        ImageView thumbnailIv = v.findViewById(R.id.thumbnail_image);
+        TextView titleTv = v.findViewById(R.id.title_text);
+        TextView descriptionTv = v.findViewById(R.id.description_text);
+        TextView creationTV = v.findViewById(R.id.creation_text);
 
-        MyViewHolder vh = new MyViewHolder(v, tv);
+        MyViewHolder vh = new MyViewHolder(v, thumbnailIv, titleTv, descriptionTv, creationTV);
         return vh;
     }
 
@@ -54,14 +66,18 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     public void onBindViewHolder(MyViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-//        holder.textView.setText(mDataset[position]);
-        holder.titleView.setText(mDataset[position]);
+
+//        holder.thumbnailIv.setText(mDataset.get(position).title);
+        Picasso.get().load(mDataset.get(position).thumbnailUrl).centerInside().fit().into(holder.thumbnailIv);
+        holder.titleTv.setText(mDataset.get(position).title);
+        holder.descriptionTv.setText(mDataset.get(position).description);
+        holder.creationTV.setText(mDataset.get(position).published);
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return mDataset.length;
+        return mDataset.size();
     }
 }
 

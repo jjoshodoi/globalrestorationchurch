@@ -1,19 +1,17 @@
 package com.example.globalrestorationchurch.ui.sermon;
 
-import android.graphics.drawable.Drawable;
-
-import java.util.Date;
-
 public class SermonDetails {
+    public String id;
     public String title;
     public String description;
-    public String thumbnail;
-    public String time;
+    public String thumbnailUrl;
+    public String published;
 
-    public SermonDetails(String title, String description, String thumbnail, String time) {
+    public SermonDetails(String id, String title, String description, String thumbnail, String published) {
+        this.id = id;
         this.title = title;
         this.description = description;
-        this.thumbnail = thumbnail;
-        this.time = time;
+        this.thumbnailUrl = thumbnail;
+        this.published = published;
     }
 }
