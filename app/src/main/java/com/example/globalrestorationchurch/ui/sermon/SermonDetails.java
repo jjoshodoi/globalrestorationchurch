@@ -15,8 +15,8 @@ public class SermonDetails {
     public String thumbnailUrl;
     public String published;
 
-    DateFormat inputFormatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US);
-    DateFormat convertFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.UK);
+    private static final DateFormat inputFormatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US);
+    private static final DateFormat convertFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.UK);
 
     public SermonDetails(String id, String title, String description, String thumbnail, String published) {
         this.id = id;
