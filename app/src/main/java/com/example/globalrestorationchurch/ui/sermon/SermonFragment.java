@@ -50,6 +50,6 @@ public class SermonFragment extends Fragment {
 
     private void setRecyclerAdapter(ArrayList<SermonDetails> details) {
         // specify an adapter (see also next example)
-        recyclerView.setAdapter(new MyAdapter(details));
+        recyclerView.setAdapter(new MyAdapter(details, this));
     }
 }
