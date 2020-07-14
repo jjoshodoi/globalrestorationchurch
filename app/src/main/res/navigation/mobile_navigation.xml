@@ -8,12 +8,7 @@
         android:id="@+id/navigation_sermon"
         android:name="com.example.globalrestorationchurch.ui.sermon.SermonFragment"
         android:label="@string/title_sermons"
-        tools:layout="@layout/fragment_sermon">
-
-        <action
-            android:id="@+id/action_navigation_sermon_to_videoFragment"
-            app:destination="@id/videoFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_sermon"/>
 
     <fragment
         android:id="@+id/navigation_calendar"
@@ -38,17 +33,5 @@
         android:name="com.example.globalrestorationchurch.ui.connect.Connect"
         android:label="@string/title_connect"
         tools:layout="@layout/connect_fragment" />
-    <fragment
-        android:id="@+id/videoFragment"
-        android:name="com.example.globalrestorationchurch.ui.sermon.VideoFragment"
-        android:label="fragment_video"
-        tools:layout="@layout/fragment_video">
-
-        <argument
-            android:name="VideoDetails"
-            app:argType="com.example.globalrestorationchurch.ui.sermon.SermonDetails"
-            app:nullable="true"
-            android:defaultValue="@null" />
-    </fragment>
 
 </navigation>
