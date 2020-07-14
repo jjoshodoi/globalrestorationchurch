@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "77406527625",
+    "firebase_url": "https://grc-application.firebaseio.com",
+    "project_id": "grc-application",
+    "storage_bucket": "grc-application.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:77406527625:android:6cc1dfbbcc8875dc236658",
+        "android_client_info": {
+          "package_name": "com.example.globalrestorationchurch"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "77406527625-mdhd1q0a9f46ia2mbh0d3ehobrdgpceq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.globalrestorationchurch",
+            "certificate_hash": "9708449d089175a84f6f73ecebd5c5c5f5c99554"
+          }
+        },
+        {
+          "client_id": "77406527625-a17bfl1f5nle20ftgq38et226dhgvam6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBq1aGbIyBuYyZMot6vh81XvQUk_49ejh0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "77406527625-a17bfl1f5nle20ftgq38et226dhgvam6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
