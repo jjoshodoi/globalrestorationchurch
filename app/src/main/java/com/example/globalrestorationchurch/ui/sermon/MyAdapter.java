@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
@@ -28,10 +29,10 @@ import java.util.Locale;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     private ArrayList<SermonDetails> mDataset;
-    private SermonFragment fragment;
+    private Fragment fragment;
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public MyAdapter(ArrayList<SermonDetails> myDataset, SermonFragment fragment) {
+    public MyAdapter(ArrayList<SermonDetails> myDataset, Fragment fragment) {
         mDataset = myDataset;
         this.fragment = fragment;
     }
@@ -67,27 +68,17 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         holder.descriptionTv.setText(mDataset.get(position).description);
         holder.creationTV.setText(mDataset.get(position).published);
 
-//        holder.itemView.setOnClickListener(view -> {
-//            Toast.makeText(holder.itemView.getContext(), "clicked", Toast.LENGTH_SHORT).show();
-//        });
 
         holder.itemView.setOnClickListener(view -> {
-//            Bundle bundle = new Bundle();
-//            bundle.putParcelable(SermonDetails.KEY, mDataset.get(position));
-////        Navigation.findNavController().navigate(R.id.videoFragment, bundle);
-//            NavHostFragment.findNavController(fragment).navigate(R.id.videoFragment, bundle);
 
-//            Navigation.findNavController(view).navigate(R.id.videoFragment);
-
-
-            NavDirections action =
-                    SermonFragmentDirections
-                            .actionNavigationSermonToVideoFragment();
-
-            Navigation.findNavController(view).navigate(action);
+            SermonFragmentDirections.ActionNavigationSermonToVideoFragment actionNavigationSermonToVideoFragment = SermonFragmentDirections.actionNavigationSermonToVideoFragment();
+            actionNavigationSermonToVideoFragment.setVideoDetails(mDataset.get(position));
+            Navigation.findNavController(view).navigate(actionNavigationSermonToVideoFragment);
 
 //            fragment.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mDataset.get(position).getPath())));
 
+//            Intent intent = YouTubeStandalonePlayer.createVideoIntent(context, YOUR_DEVELOPER_KEY, VIDEO_ID);
+//            startActivity(intent);
         });
 
     }
