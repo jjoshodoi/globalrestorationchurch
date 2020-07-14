@@ -10,7 +10,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
@@ -35,6 +37,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     }
 
     // Create new views (invoked by the layout manager)
+    @NonNull
     @Override
     public MyAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent,
                                                      int viewType) {
@@ -74,10 +77,12 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 ////        Navigation.findNavController().navigate(R.id.videoFragment, bundle);
 //            NavHostFragment.findNavController(fragment).navigate(R.id.videoFragment, bundle);
 
-            fragment.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mDataset.get(position).getPath())));
+            Navigation.findNavController(view).navigate(R.id.videoFragment);
 
-//            fragment.startActivity();
-
+//            NavDirections action =
+//                    SermonFragmentDirections
+//                            .actionNavigationSermonToVideoFragment();
+//            Navigation.findNavController(view).navigate(action);
         });
 
     }

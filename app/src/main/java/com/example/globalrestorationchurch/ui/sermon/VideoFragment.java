@@ -1,18 +1,14 @@
 package com.example.globalrestorationchurch.ui.sermon;
 
-import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.VideoView;
+
+import androidx.fragment.app.Fragment;
 
 import com.example.globalrestorationchurch.R;
-
-import java.net.URISyntaxException;
 
 
 public class VideoFragment extends Fragment {
@@ -33,8 +29,8 @@ public class VideoFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_video, container, false);
 
-        VideoView video = view.findViewById(R.id.video_view);
-        video.setVideoPath(details.getPath());
+
+        Log.e("tag", String.valueOf(details));
 
         return view;
     }
