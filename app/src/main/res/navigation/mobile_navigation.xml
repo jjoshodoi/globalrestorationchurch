@@ -11,7 +11,13 @@
         tools:layout="@layout/fragment_sermon">
         <action
             android:id="@+id/action_navigation_sermon_to_videoFragment"
-            app:destination="@id/videoFragment" />
+            app:destination="@id/videoFragment" >
+
+        </action>
+
+        <argument
+            android:name="SermonDetailsArgs"
+            app:argType="com.example.globalrestorationchurch.ui.sermon.SermonDetails" />
     </fragment>
 
     <fragment
@@ -43,9 +49,7 @@
         android:label="fragment_video"
         tools:layout="@layout/fragment_video">
 
-        <action
-            android:id="@+id/action_videoFragment_to_navigation_sermon"
-            app:destination="@id/navigation_sermon" />
+
     </fragment>
 <!--    <activity-->
 <!--        android:id="@+id/userDetails"-->

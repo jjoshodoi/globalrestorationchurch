@@ -15,13 +15,6 @@ public class VideoFragment extends Fragment {
 
     SermonDetails details;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            details = getArguments().getParcelable(SermonDetails.KEY);
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -29,6 +22,9 @@ public class VideoFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_video, container, false);
 
+
+//        details = SermonDetails
+//        int amount = savedInstanceState.fromBundle(getArguments()).getAmount();
 
         Log.e("tag", String.valueOf(details));
 
