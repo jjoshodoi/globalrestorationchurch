@@ -70,12 +70,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
 
         holder.itemView.setOnClickListener(view -> {
+//            SermonFragmentDirections.ActionNavigationSermonToVideoFragment actionNavigationSermonToVideoFragment = SermonFragmentDirections.actionNavigationSermonToVideoFragment();
+//            actionNavigationSermonToVideoFragment.setVideoDetails(mDataset.get(position));
+//            Navigation.findNavController(view).navigate(actionNavigationSermonToVideoFragment);
 
-            SermonFragmentDirections.ActionNavigationSermonToVideoFragment actionNavigationSermonToVideoFragment = SermonFragmentDirections.actionNavigationSermonToVideoFragment();
-            actionNavigationSermonToVideoFragment.setVideoDetails(mDataset.get(position));
-            Navigation.findNavController(view).navigate(actionNavigationSermonToVideoFragment);
-
-//            fragment.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mDataset.get(position).getPath())));
+            fragment.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mDataset.get(position).getPath())));
 
 //            Intent intent = YouTubeStandalonePlayer.createVideoIntent(context, YOUR_DEVELOPER_KEY, VIDEO_ID);
 //            startActivity(intent);
