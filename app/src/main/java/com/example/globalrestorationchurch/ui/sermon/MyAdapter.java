@@ -77,12 +77,14 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 ////        Navigation.findNavController().navigate(R.id.videoFragment, bundle);
 //            NavHostFragment.findNavController(fragment).navigate(R.id.videoFragment, bundle);
 
-            Navigation.findNavController(view).navigate(R.id.videoFragment);
+//            Navigation.findNavController(view).navigate(R.id.videoFragment);
 
 //            NavDirections action =
 //                    SermonFragmentDirections
 //                            .actionNavigationSermonToVideoFragment();
 //            Navigation.findNavController(view).navigate(action);
+
+            fragment.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mDataset.get(position).getPath())));
         });
 
     }
