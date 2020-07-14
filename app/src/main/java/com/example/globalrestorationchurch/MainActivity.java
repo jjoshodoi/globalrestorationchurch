@@ -1,9 +1,8 @@
 package com.example.globalrestorationchurch;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.KeyEvent;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -11,19 +10,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.ViewCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import android.util.Log;
-import android.view.View;
 
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -35,20 +30,14 @@ import com.google.firebase.auth.FirebaseUser;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-//import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "AndroidClarified";
     private static final int RC_SIGN_IN = 123;
-//    private GoogleSignInClient googleSignInClient;
-
-    // Firebase instance variables
-//    private FirebaseAuth mFirebaseAuth;
-//    private FirebaseUser mFirebaseUser;
 
     @Override
-    @RequiresApi(27)
+//    @RequiresApi(27)
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -68,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
 
+
+        createSignInIntent();
     }
 
     public void createSignInIntent() {
@@ -145,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
                 AuthUI.getInstance()
                         .createSignInIntentBuilder()
                         .setAvailableProviders(providers)
-                        .setLogo(R.drawable.ic_baseline_account_circle_24)      // Set logo drawable
+                        .setLogo(R.drawable.ic_baseline_favorite_24)      // Set logo drawable
                         .setTheme(R.style.AppTheme)      // Set theme
                         .build(),
                 RC_SIGN_IN);
@@ -175,13 +166,11 @@ public class MainActivity extends AppCompatActivity {
                 return true;
 
             case R.id.action_signin:
-//                Intent signInIntent = googleSignInClient.getSignInIntent();
-//                startActivityForResult(signInIntent, 101);
-                createSignInIntent();
+//                createSignInIntent();
                 return true;
 
             case R.id.action_signout:
-                signOut();
+//                signOut();
                 return true;
 
             default:
@@ -198,6 +187,5 @@ public class MainActivity extends AppCompatActivity {
 //        Picasso.get().load(googleSignInAccount.getPhotoUrl()).centerInside().fit().into(profileImage);
         return true;
     }
-
 
 }
