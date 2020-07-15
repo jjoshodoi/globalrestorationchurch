@@ -24,6 +24,7 @@ public class UserDetailsActivity extends AppCompatActivity implements NoticeDial
 
         FirebaseUser user = getIntent().getParcelableExtra(LoginActivity.FIREBASE_USER_KEY);
 
+        assert user != null;
         TextView profileName = findViewById(R.id.profile_text);
         profileName.setText(user.getDisplayName());
         TextView profileEmail = findViewById(R.id.profile_email);

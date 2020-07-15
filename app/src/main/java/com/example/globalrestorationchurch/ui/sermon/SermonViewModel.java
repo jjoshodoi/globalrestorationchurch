@@ -24,7 +24,8 @@ import java.util.concurrent.Callable;
 
 public class SermonViewModel extends ViewModel {
 
-    private static final String PLAYLISTVIDEOSTRING = "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet%2C+id&playlistId=PL21rEW-r8cqeumA2WciZ77zUVEycwK-C7&key=" + MainActivity.API_KEY + "&maxResults=20";
+    private static final String PLAYLISTID = "PL21rEW-r8cqeumA2WciZ77zUVEycwK-C7";
+    private static final String PLAYLISTVIDEOSTRING = "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet%2C+id&playlistId=" + PLAYLISTID + "&key=" + MainActivity.API_KEY + "&maxResults=20";
     private MutableLiveData<List<SermonDetails>> details;
 
     public LiveData<List<SermonDetails>> getUsers() {
