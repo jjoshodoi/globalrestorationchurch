@@ -2,15 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/action_signin"
+    <item android:id="@+id/action_account_details"
         android:title="@string/title_signin"
         android:icon="@drawable/ic_baseline_account_circle_24"
         app:showAsAction="ifRoom"/>
 
-    <item android:id="@+id/action_signout"
-        android:title="@string/title_signout"
-        android:icon="@drawable/ic_baseline_favorite_24"
-        app:showAsAction="ifRoom"/>
 
     <!-- Settings, should always be in the overflow -->
     <item android:id="@+id/action_settings"
