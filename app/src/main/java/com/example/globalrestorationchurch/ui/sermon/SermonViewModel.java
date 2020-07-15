@@ -6,6 +6,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.globalrestorationchurch.MainActivity;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,7 +24,7 @@ import java.util.concurrent.Callable;
 
 public class SermonViewModel extends ViewModel {
 
-    private static final String PLAYLISTVIDEOSTRING = "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet%2C+id&playlistId=PL21rEW-r8cqeumA2WciZ77zUVEycwK-C7&key=AIzaSyAkWwsGfbqMay48tO1xSWHEss9YQsW5f_o&maxResults=20";
+    private static final String PLAYLISTVIDEOSTRING = "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet%2C+id&playlistId=PL21rEW-r8cqeumA2WciZ77zUVEycwK-C7&key=" + MainActivity.API_KEY + "&maxResults=20";
     private MutableLiveData<List<SermonDetails>> details;
 
     public LiveData<List<SermonDetails>> getUsers() {

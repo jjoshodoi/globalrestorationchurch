@@ -1,8 +1,6 @@
 package com.example.globalrestorationchurch;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -12,43 +10,31 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.firebase.ui.auth.AuthUI;
-import com.firebase.ui.auth.IdpResponse;
-import com.firebase.ui.auth.data.model.User;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-
 public class MainActivity extends AppCompatActivity {
 
-    private static final String TAG = "AndroidClarified";
-    FirebaseUser user;
     private static final int REQUEST_CODE = 999;
+    public static String API_KEY;
+    private FirebaseUser user;
 
     @Override
-//    @RequiresApi(27)
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        API_KEY = getApplicationContext().getResources().getString(R.string.google_api_key);
 
         user = getIntent().getParcelableExtra(LoginActivity.FIREBASE_USER_KEY);
 
@@ -66,8 +52,6 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
-
-
     }
 
     @Override
@@ -76,15 +60,11 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_settings:
                 // User chose the "Settings" item, show the app settings UI...
                 return true;
-
             case R.id.action_account_details:
-//                createSignInIntent();
-
                 Intent intent = new Intent(this, UserDetailsActivity.class);
                 intent.putExtra(LoginActivity.FIREBASE_USER_KEY, user);
                 startActivityForResult(intent, REQUEST_CODE);
                 return true;
-
             default:
                 // If we got here, the user's action was not recognized.
                 // Invoke the superclass to handle it.
@@ -99,7 +79,8 @@ public class MainActivity extends AppCompatActivity {
             if (resultCode == MainActivity.RESULT_OK) {
                 AuthUI.getInstance()
                         .signOut(MainActivity.this)
-                        .addOnCompleteListener(task -> signOut()).addOnFailureListener(e -> Toast.makeText(MainActivity.this, ""+ e.getMessage(), Toast.LENGTH_LONG).show());
+                        .addOnCompleteListener(task -> signOut())
+                        .addOnFailureListener(e -> Toast.makeText(MainActivity.this, "" + e.getMessage(), Toast.LENGTH_LONG).show());
             }
             if (resultCode == MainActivity.RESULT_CANCELED) {
                 //Write your code if there's no result
@@ -141,5 +122,4 @@ public class MainActivity extends AppCompatActivity {
         Picasso.get().load(user.getPhotoUrl()).into(mTarget);
         return true;
     }
-
 }

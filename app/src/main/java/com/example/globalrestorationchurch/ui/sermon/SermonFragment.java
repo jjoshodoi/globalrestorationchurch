@@ -17,8 +17,6 @@ import java.util.ArrayList;
 
 public class SermonFragment extends Fragment {
 
-        public static final String API_KEY = "AIzaSyAkWwsGfbqMay48tO1xSWHEss9YQsW5f_o";
-//    private static final String PLAYLISTVIDEOSTRING = "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet%2C+id&playlistId=PL21rEW-r8cqeumA2WciZ77zUVEycwK-C7&key=AIzaSyAkWwsGfbqMay48tO1xSWHEss9YQsW5f_o&maxResults=20";
     private RecyclerView recyclerView;
 
     public View onCreateView(@NonNull LayoutInflater inflater,

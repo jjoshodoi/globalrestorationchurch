@@ -2,30 +2,20 @@ package com.example.globalrestorationchurch.ui.sermon;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.NavDirections;
-import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.globalrestorationchurch.R;
 import com.squareup.picasso.Picasso;
 
-import java.net.URI;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     private ArrayList<SermonDetails> mDataset;
@@ -68,11 +58,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         holder.descriptionTv.setText(mDataset.get(position).description);
         holder.creationTV.setText(mDataset.get(position).published);
 
-
         holder.itemView.setOnClickListener(view -> {
             fragment.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mDataset.get(position).getPath())));
         });
-
     }
 
     // Return the size of your dataset (invoked by the layout manager)

@@ -10,13 +10,7 @@ import androidx.fragment.app.DialogFragment;
 
 public class NoticeDialogFragment extends DialogFragment {
 
-    public interface NoticeDialogListener {
-        void onDialogPositiveClick(DialogFragment dialog);
-        void onDialogNegativeClick(DialogFragment dialog);
-    }
-
     NoticeDialogListener listener;
-
 
     // Override the Fragment.onAttach() method to instantiate the NoticeDialogListener
     @Override
@@ -33,7 +27,6 @@ public class NoticeDialogFragment extends DialogFragment {
         }
     }
 
-
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -49,6 +42,13 @@ public class NoticeDialogFragment extends DialogFragment {
                     listener.onDialogNegativeClick(NoticeDialogFragment.this);
                 });
         return builder.create();
+    }
+
+
+    public interface NoticeDialogListener {
+        void onDialogPositiveClick(DialogFragment dialog);
+
+        void onDialogNegativeClick(DialogFragment dialog);
     }
 
 }
