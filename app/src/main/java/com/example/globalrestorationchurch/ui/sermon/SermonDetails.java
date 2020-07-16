@@ -22,13 +22,13 @@ public class SermonDetails implements Parcelable {
             return new SermonDetails[size];
         }
     };
-    private static final String YOUTUBELINK = "https://www.youtube.com/watch?v=";
+    public static final String YOUTUBELINK = "https://www.youtube.com/watch?v=";
     private static final DateFormat INPUTFORMATTER = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US);
     private static final DateFormat CONVERTFORMATTER = new SimpleDateFormat("dd/MM/yyyy", Locale.UK);
-    public String id;
-    public String title;
-    public String description;
-    public String thumbnailUrl;
+    public final String id;
+    public final String title;
+    public final String description;
+    public final String thumbnailUrl;
     public String published;
 
     public SermonDetails(String id, String title, String description, String thumbnail, String published) {
@@ -51,10 +51,6 @@ public class SermonDetails implements Parcelable {
         description = in.readString();
         thumbnailUrl = in.readString();
         published = in.readString();
-    }
-
-    String getPath() {
-        return YOUTUBELINK + id;
     }
 
     @Override

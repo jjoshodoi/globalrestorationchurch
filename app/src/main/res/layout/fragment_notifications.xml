@@ -24,7 +24,7 @@
         android:id="@+id/imageView"
         android:layout_width="340dp"
         android:layout_height="200dp"
-        android:contentDescription="TODO"
+        android:contentDescription="@string/pej"
         android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -40,5 +40,5 @@
         app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView"
-        android:contentDescription="TODO" />
+        android:contentDescription="@string/pej" />
 </androidx.constraintlayout.widget.ConstraintLayout>

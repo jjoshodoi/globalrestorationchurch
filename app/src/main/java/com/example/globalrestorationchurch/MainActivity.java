@@ -26,8 +26,15 @@ import com.squareup.picasso.Target;
 public class MainActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE = 999;
+    public static final int NEW_USER_RESULT = 343;
     public static String API_KEY;
     private FirebaseUser user;
+
+    private static void goLoginScreen(MainActivity context, int resultCode) {
+        context.startActivity(new Intent(context, LoginActivity.class));
+        context.setResult(resultCode);
+        context.finish();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,23 +82,28 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         if (requestCode == REQUEST_CODE) {
-            if (resultCode == MainActivity.RESULT_OK) {
+            if (resultCode == R.string.are_you_sure_signout) {
                 AuthUI.getInstance()
                         .signOut(MainActivity.this)
-                        .addOnCompleteListener(task -> signOut())
+                        .addOnCompleteListener(task -> {
+                            Toast.makeText(this, "Sign out successful!", Toast.LENGTH_SHORT).show();
+                            MainActivity.goLoginScreen(this, LoginActivity.RESULT_OK);
+                        })
+                        .addOnFailureListener(e -> Toast.makeText(MainActivity.this, "" + e.getMessage(), Toast.LENGTH_LONG).show());
+            } else if (resultCode == R.string.are_you_sure_delete) {
+                AuthUI.getInstance()
+                        .delete(MainActivity.this)
+                        .addOnCompleteListener(task -> {
+                            Toast.makeText(this, "Account has been deleted!", Toast.LENGTH_SHORT).show();
+                            MainActivity.goLoginScreen(this, LoginActivity.RESULT_OK);
+                        })
                         .addOnFailureListener(e -> Toast.makeText(MainActivity.this, "" + e.getMessage(), Toast.LENGTH_LONG).show());
             }
-            if (resultCode == MainActivity.RESULT_CANCELED) {
-                //Write your code if there's no result
-            }
+            //Write your code if there's no result
         }
     }//onActivityResult
-
-    private void signOut() {
-        startActivity(new Intent(this, LoginActivity.class));
-        finish();
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

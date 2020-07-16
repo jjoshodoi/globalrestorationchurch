@@ -1,6 +1,6 @@
 package com.example.globalrestorationchurch;
 
-import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -14,8 +14,8 @@ import com.squareup.picasso.Picasso;
 
 public class UserDetailsActivity extends AppCompatActivity implements NoticeDialogFragment.NoticeDialogListener {
 
-    public static final String SIGNOUT_RESULTS = "SIGNOUTRESULTS";
     public static final String SIGNOUT = "signout?";
+    public static final String DELETE = "delete?";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,34 +24,47 @@ public class UserDetailsActivity extends AppCompatActivity implements NoticeDial
 
         FirebaseUser user = getIntent().getParcelableExtra(LoginActivity.FIREBASE_USER_KEY);
 
-        assert user != null;
         TextView profileName = findViewById(R.id.profile_text);
-        profileName.setText(user.getDisplayName());
         TextView profileEmail = findViewById(R.id.profile_email);
-        profileEmail.setText(user.getEmail());
         ImageView profileImage = findViewById(R.id.profile_image);
-        Picasso.get().load(user.getPhotoUrl()).centerCrop().fit().into(profileImage);
+
         Button signOut = findViewById(R.id.sign_out);
+        Button deleteAccount = findViewById(R.id.delete_account);
+
+        assert user != null;
+        profileName.setText(user.getDisplayName());
+
+        profileEmail.setText(user.getEmail());
+
+        Picasso.get().load(user.getPhotoUrl()).centerCrop().config(Bitmap.Config.RGB_565).fit().into(profileImage);
 
         signOut.setOnClickListener(view -> {
-            DialogFragment newFragment = new NoticeDialogFragment();
+            DialogFragment newFragment = new NoticeDialogFragment(R.string.are_you_sure_signout);
             newFragment.show(getSupportFragmentManager(), SIGNOUT);
         });
+
+        deleteAccount.setOnClickListener(view -> {
+            DialogFragment newFragment = new NoticeDialogFragment(R.string.are_you_sure_delete);
+            newFragment.show(getSupportFragmentManager(), DELETE);
+        });
+
     }
 
     @Override
     public void onDialogPositiveClick(DialogFragment dialog) {
-        Intent intent = new Intent(this, MainActivity.class);
-
-        intent.putExtra(SIGNOUT_RESULTS, true);
-        setResult(MainActivity.RESULT_OK);
-        finish();
+        switch (((NoticeDialogFragment) dialog).displayText) {
+            case R.string.are_you_sure_signout:
+                setResult(R.string.are_you_sure_signout);
+                finish();
+                break;
+            case R.string.are_you_sure_delete:
+                setResult(R.string.are_you_sure_delete);
+                finish();
+                break;
+            default:
+        }
     }
 
-    @Override
-    public void onDialogNegativeClick(DialogFragment dialog) {
-
-    }
 }
 
 

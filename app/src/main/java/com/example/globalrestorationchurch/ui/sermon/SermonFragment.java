@@ -13,11 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.globalrestorationchurch.R;
 
-import java.util.ArrayList;
-
 public class SermonFragment extends Fragment {
-
-    private RecyclerView recyclerView;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -25,16 +21,7 @@ public class SermonFragment extends Fragment {
                 ViewModelProvider(this).get(SermonViewModel.class);
         View root = inflater.inflate(R.layout.fragment_sermon, container, false);
 
-        setUpRecycler(root);
-        // set the recycler views adapter from the view model
-        sermonViewModel.getUsers().observe(getViewLifecycleOwner(), users -> {
-            setRecyclerAdapter(new ArrayList<>(users));
-        });
-
-        return root;
-    }
-
-    private void setUpRecycler(View root) {
+        final RecyclerView recyclerView;
         recyclerView = root.findViewById(R.id.my_recycler_view);
 
         // use this setting to improve performance if you know that changes
@@ -44,10 +31,10 @@ public class SermonFragment extends Fragment {
         // use a linear layout manager
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(root.getContext());
         recyclerView.setLayoutManager(layoutManager);
-    }
 
-    private void setRecyclerAdapter(ArrayList<SermonDetails> details) {
-        // specify an adapter (see also next example)
-        recyclerView.setAdapter(new MyAdapter(details, this));
+        // set the recycler views adapter from the view model
+        sermonViewModel.getUsers().observe(getViewLifecycleOwner(), users -> recyclerView.setAdapter(new MyAdapter(users, this)));
+
+        return root;
     }
 }

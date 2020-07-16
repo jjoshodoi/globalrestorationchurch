@@ -10,7 +10,12 @@ import androidx.fragment.app.DialogFragment;
 
 public class NoticeDialogFragment extends DialogFragment {
 
-    NoticeDialogListener listener;
+    public final int displayText;
+    private NoticeDialogListener listener;
+
+    public NoticeDialogFragment(int displayText) {
+        this.displayText = displayText;
+    }
 
     // Override the Fragment.onAttach() method to instantiate the NoticeDialogListener
     @Override
@@ -22,7 +27,7 @@ public class NoticeDialogFragment extends DialogFragment {
             listener = (NoticeDialogListener) context;
         } catch (ClassCastException e) {
             // The activity doesn't implement the interface, throw exception
-            throw new ClassCastException(getActivity().toString()
+            throw new ClassCastException(requireActivity().toString()
                     + " must implement NoticeDialogListener");
         }
     }
@@ -31,24 +36,22 @@ public class NoticeDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Build the dialog and set up the button click handlers
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage(R.string.areyousure)
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
+        builder.setMessage(displayText)
                 .setPositiveButton(R.string.yes, (dialog, id) -> {
                     // Send the positive button event back to the host activity
                     listener.onDialogPositiveClick(NoticeDialogFragment.this);
                 })
                 .setNegativeButton(R.string.cancel, (dialog, id) -> {
                     // Send the negative button event back to the host activity
-                    listener.onDialogNegativeClick(NoticeDialogFragment.this);
+//                    listener.onDialogNegativeClick(NoticeDialogFragment.this);
                 });
         return builder.create();
     }
 
-
     public interface NoticeDialogListener {
         void onDialogPositiveClick(DialogFragment dialog);
 
-        void onDialogNegativeClick(DialogFragment dialog);
     }
 
 }

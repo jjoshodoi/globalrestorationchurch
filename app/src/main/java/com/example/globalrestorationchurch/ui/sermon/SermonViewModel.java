@@ -26,9 +26,9 @@ public class SermonViewModel extends ViewModel {
 
     private static final String PLAYLISTID = "PL21rEW-r8cqeumA2WciZ77zUVEycwK-C7";
     private static final String PLAYLISTVIDEOSTRING = "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet%2C+id&playlistId=" + PLAYLISTID + "&key=" + MainActivity.API_KEY + "&maxResults=20";
-    private MutableLiveData<List<SermonDetails>> details;
+    private MutableLiveData<SermonDetails[]> details;
 
-    public LiveData<List<SermonDetails>> getUsers() {
+    public LiveData<SermonDetails[]> getUsers() {
         if (details == null) {
             details = new MutableLiveData<>();
             loadUsers();
@@ -37,26 +37,17 @@ public class SermonViewModel extends ViewModel {
     }
 
     private void loadUsers() {
-        new TaskRunner().executeAsync(new LongRunningPlaylistTask(PLAYLISTVIDEOSTRING), (data) -> {
-            details.setValue(data);
-        });
+        new TaskRunner().executeAsync(new LongRunningPlaylistTask(), (data) -> details.setValue(data));
     }
 
-    static class LongRunningPlaylistTask implements Callable<ArrayList<SermonDetails>> {
-        private final String input;
+    static class LongRunningPlaylistTask implements Callable<SermonDetails[]> {
+        final String input;
 
-        public LongRunningPlaylistTask(String input) {
-            this.input = input;
+        LongRunningPlaylistTask() {
+            this.input = SermonViewModel.PLAYLISTVIDEOSTRING;
         }
 
-        @Override
-        public ArrayList<SermonDetails> call() {
-            // Some long running task
-            String playlistJSON = doInBackground(input);
-            return parseResult(playlistJSON);
-        }
-
-        private String doInBackground(String playlists) {
+        static String doInBackground(String playlists) {
 
             HttpURLConnection connection = null;
             BufferedReader reader = null;
@@ -95,8 +86,15 @@ public class SermonViewModel extends ViewModel {
             return null;
         }
 
-        private ArrayList<SermonDetails> parseResult(String playlist) {
-            ArrayList<SermonDetails> details = new ArrayList<>();
+        @Override
+        public SermonDetails[] call() {
+            // Some long running task
+            String playlistJSON = doInBackground(input);
+            return parseResult(playlistJSON);
+        }
+
+        private SermonDetails[] parseResult(String playlist) {
+            List<SermonDetails> details = new ArrayList<>();
             try {
                 JSONObject jsonObject = new JSONObject(playlist);
                 JSONArray style = jsonObject.getJSONArray("items");
@@ -113,7 +111,7 @@ public class SermonViewModel extends ViewModel {
             } catch (JSONException err) {
                 Log.e("Error", err.toString());
             }
-            return details;
+            return details.toArray(new SermonDetails[0]);
         }
     }
 }
