@@ -28,7 +28,7 @@ import java.util.Objects;
 
 public class ChatFragment extends Fragment {
     private RecyclerView recyclerView;
-    private FirebaseRecyclerAdapter<ChatMessage, MyViewHolder> recyclerAdapter;
+    private static final int OWNERTAG = 1;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -72,6 +72,9 @@ public class ChatFragment extends Fragment {
         recyclerAdapter.stopListening();
     }
 
+    private static final int SENDERTAG = 2;
+    private FirebaseRecyclerAdapter<ChatMessage, RecyclerView.ViewHolder> recyclerAdapter;
+
     private void updateList() {
         Query query = FirebaseDatabase.getInstance().getReference();
         FirebaseRecyclerOptions<ChatMessage> optionsRecycler =
@@ -80,42 +83,50 @@ public class ChatFragment extends Fragment {
                         .build();
 
 //        FirebaseRecyclerAdapter<ChatMessage, MyViewHolder> finalRecyclerAdapter = recyclerAdapter;
-        recyclerAdapter = new FirebaseRecyclerAdapter<ChatMessage, MyViewHolder>(optionsRecycler) {
+        recyclerAdapter = new FirebaseRecyclerAdapter<ChatMessage, RecyclerView.ViewHolder>(optionsRecycler) {
             @NonNull
             @Override
-            public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                 // Create a new instance of the ViewHolder, in this case we are using a custom
                 // layout called R.layout.message for each item
-                View view = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.text_bubble, parent, false);
-                return new MyViewHolder(view);
+
+                if (viewType == OWNERTAG) {
+                    return new OwnerViewHolder(LayoutInflater.from(parent.getContext())
+                            .inflate(R.layout.owner_text_bubble, parent, false));
+                } else {
+                    return new SenderViewHolder(LayoutInflater.from(parent.getContext())
+                            .inflate(R.layout.sender_text_bubble, parent, false));
+                }
+            }
+
+            // Determines the appropriate ViewType according to the sender of the message.
+            @Override
+            public int getItemViewType(int position) {
+                ChatMessage message = getItem(position);
+
+                if (message.getMessageUser().equals(MainActivity.userName)) {
+                    // If the current user is the sender of the message
+                    return OWNERTAG;
+                } else {
+                    // If some other user sent the message
+                    return SENDERTAG;
+                }
             }
 
             @Override
-            protected void onBindViewHolder(@NonNull MyViewHolder holder, int position, @NonNull ChatMessage model) {
+            protected void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, @NonNull ChatMessage model) {
                 // Bind the Chat object to the ChatHolder
                 // ...
-
-                String user = model.getMessageUser();
-
-                holder.user.setText(user);
-                holder.text.setText(model.getMessageText());
-                holder.time.setText(String.valueOf(model.getMessageTime()));
-
-                if (user.equals(MainActivity.userName)) {
-
-//                    ConstraintLayout mConstraintLayout  = (ConstraintLayout)holder.view;
-//                    ConstraintSet set = new ConstraintSet();
-//
-//                    CardView cv = holder.view.findViewById(R.id.cardview);
-//
-//                    mConstraintLayout.removeView(cv);
-//                    mConstraintLayout.addView(cv,0);
-//                    set.clone(mConstraintLayout);
-//                    set.connect(cv.getId(), ConstraintSet.END, mConstraintLayout.getId(), ConstraintSet.END, 0);
-//                    set.connect(cv.getId(), ConstraintSet.BOTTOM, mConstraintLayout.getId(), ConstraintSet.BOTTOM, 0);
-//                    set.connect(cv.getId(), ConstraintSet.TOP, mConstraintLayout.getId(), ConstraintSet.TOP, 0);
-//                    set.applyTo(mConstraintLayout);
+                if (holder.getItemViewType() == OWNERTAG) {
+                    OwnerViewHolder ownerViewHolder = (OwnerViewHolder) holder;
+                    ownerViewHolder.user.setText(model.getMessageUser());
+                    ownerViewHolder.text.setText(model.getMessageText());
+                    ownerViewHolder.time.setText(String.valueOf(model.getMessageTime()));
+                } else {
+                    SenderViewHolder senderViewHolder = (SenderViewHolder) holder;
+                    senderViewHolder.user.setText(model.getMessageUser());
+                    senderViewHolder.text.setText(model.getMessageText());
+                    senderViewHolder.time.setText(String.valueOf(model.getMessageTime()));
                 }
             }
 
@@ -124,7 +135,6 @@ public class ChatFragment extends Fragment {
                 // Called each time there is a new data snapshot. You may want to use this method
                 // to hide a loading spinner or check for the "no documents" state and update your UI.
                 // ...
-
                 recyclerView.scrollToPosition(recyclerAdapter.getItemCount() - 1);
             }
 
@@ -151,13 +161,28 @@ public class ChatFragment extends Fragment {
 
 }
 
-class MyViewHolder extends RecyclerView.ViewHolder {
+class SenderViewHolder extends RecyclerView.ViewHolder {
     public final View view;
     public final TextView text;
     public final TextView user;
     public final TextView time;
 
-    public MyViewHolder(View v) {
+    public SenderViewHolder(View v) {
+        super(v);
+        this.view = v;
+        this.user = v.findViewById(R.id.message_user);
+        this.text = v.findViewById(R.id.message_text);
+        this.time = v.findViewById(R.id.message_time);
+    }
+}
+
+class OwnerViewHolder extends RecyclerView.ViewHolder {
+    public final View view;
+    public final TextView text;
+    public final TextView user;
+    public final TextView time;
+
+    public OwnerViewHolder(View v) {
         super(v);
         this.view = v;
         this.user = v.findViewById(R.id.message_user);
