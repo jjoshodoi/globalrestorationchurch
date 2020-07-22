@@ -35,27 +35,30 @@ public class ChatFragment extends Fragment {
         FloatingActionButton fab =
                 view.findViewById(R.id.fab);
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                EditText input = view.findViewById(R.id.input);
+        updateList(view);
 
-                // Read the input field and push a new instance
-                // of ChatMessage to the Firebase database
-                FirebaseDatabase.getInstance()
-                        .getReference()
-                        .push()
-                        .setValue(new ChatMessage(input.getText().toString(),
-                                FirebaseAuth.getInstance()
-                                        .getCurrentUser()
-                                        .getDisplayName())
-                        );
+        fab.setOnClickListener(view1 -> {
+            EditText input = view.findViewById(R.id.input);
+            // Read the input field and push a new instance
+            // of ChatMessage to the Firebase database
+            FirebaseDatabase.getInstance()
+                    .getReference()
+                    .push()
+                    .setValue(new ChatMessage(input.getText().toString(),
+                            FirebaseAuth.getInstance()
+                                    .getCurrentUser()
+                                    .getDisplayName())
+                    );
 
-                // Clear the input
-                input.setText("");
-            }
+            // Clear the input
+            input.setText("");
         });
 
+
+        return view;
+    }
+
+    private void updateList(View view) {
         ListView listOfMessages = view.findViewById(R.id.list_of_messages);
 
         Query query = FirebaseDatabase.getInstance().getReference();
@@ -65,7 +68,7 @@ public class ChatFragment extends Fragment {
                 .build();
         adapter = new FirebaseListAdapter<ChatMessage>(options) {
             @Override
-            protected void populateView(View v, ChatMessage model, int position) {
+            protected void populateView(@NonNull View v, @NonNull ChatMessage model, int position) {
                 // Get references to the views of message.xml
                 TextView messageText = v.findViewById(R.id.message_text);
                 TextView messageUser = v.findViewById(R.id.message_user);
@@ -82,8 +85,6 @@ public class ChatFragment extends Fragment {
         };
 
         listOfMessages.setAdapter(adapter);
-
-        return view;
     }
 
     @Override

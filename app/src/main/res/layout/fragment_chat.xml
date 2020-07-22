@@ -1,19 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_height="match_parent">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="8dp"
+    android:paddingTop="8dp"
+    android:paddingRight="8dp"
+    android:paddingBottom="8dp"
+    tools:context="com.example.globalrestorationchurch.MainActivity">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
         android:clickable="true"
-        android:focusable="true"
-        android:src="@drawable/ic_launcher_foreground"
+        android:id="@+id/fab"
+        android:layout_alignParentEnd="true"
         android:tint="@android:color/white"
+        android:layout_alignParentBottom="true"
+        android:focusable="true"
+        android:src="@drawable/ic_baseline_account_circle_24"
         app:fabSize="mini" />
 
     <com.google.android.material.textfield.TextInputLayout
@@ -21,25 +28,23 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_toStartOf="@id/fab">
+        android:layout_toLeftOf="@id/fab">
 
         <EditText
-            android:id="@+id/input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:autofillHints="text here"
+            android:id="@+id/input"
             android:hint="Input" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <ListView
-        android:id="@+id/list_of_messages"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/fab"
+        android:id="@+id/list_of_messages"
         android:layout_alignParentStart="true"
+        android:layout_above="@id/fab"
         android:layout_alignParentTop="true"
-        android:layout_marginBottom="16dp"
         android:divider="@android:color/transparent"
+        android:layout_marginBottom="16dp"
         android:dividerHeight="16dp" />
-
 </RelativeLayout>
