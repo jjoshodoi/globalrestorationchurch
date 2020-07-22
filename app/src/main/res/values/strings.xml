@@ -33,4 +33,6 @@
     <string name="sign_up">Sign Up</string>
     <string name="newsignup">newsignup</string>
     <string name="link_up">Link Account</string>
+    <string name="user">user</string>
+    <string name="sent">sent</string>
 </resources>

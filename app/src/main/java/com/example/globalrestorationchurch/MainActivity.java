@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     public static final int NEW_USER_RESULT = 343;
     public static String API_KEY;
     private FirebaseUser user;
+    public static String userName;
 
     private static void goLoginScreen(MainActivity context, int resultCode) {
         context.startActivity(new Intent(context, LoginActivity.class));
@@ -44,6 +45,9 @@ public class MainActivity extends AppCompatActivity {
         API_KEY = getApplicationContext().getResources().getString(R.string.google_api_key);
 
         user = getIntent().getParcelableExtra(LoginActivity.FIREBASE_USER_KEY);
+        if (user != null) {
+            userName = user.getDisplayName();
+        }
 
         Toolbar toolbar = findViewById(R.id.topAppBar);
         setSupportActionBar(toolbar);
