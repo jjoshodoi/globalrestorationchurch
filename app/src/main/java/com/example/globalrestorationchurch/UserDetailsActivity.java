@@ -47,7 +47,6 @@ public class UserDetailsActivity extends AppCompatActivity implements NoticeDial
             DialogFragment newFragment = new NoticeDialogFragment(R.string.are_you_sure_delete);
             newFragment.show(getSupportFragmentManager(), DELETE);
         });
-
     }
 
     @Override
