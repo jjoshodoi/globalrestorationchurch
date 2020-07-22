@@ -35,7 +35,7 @@ public class ChatFragment extends Fragment {
         FloatingActionButton fab =
                 view.findViewById(R.id.fab);
 
-        updateList(view);
+
 
         fab.setOnClickListener(view1 -> {
             EditText input = view.findViewById(R.id.input);
@@ -49,12 +49,12 @@ public class ChatFragment extends Fragment {
                                     .getCurrentUser()
                                     .getDisplayName())
                     );
-
+//            adapter.notifyDataSetChanged();
             // Clear the input
             input.setText("");
         });
 
-
+        updateList(view);
         return view;
     }
 
@@ -85,6 +85,7 @@ public class ChatFragment extends Fragment {
         };
 
         listOfMessages.setAdapter(adapter);
+        adapter.startListening();
     }
 
     @Override
