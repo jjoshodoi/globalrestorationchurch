@@ -37,7 +37,6 @@ public class Connect extends Fragment implements OnMapReadyCallback {
 
         mapFragment.getMapAsync(this);
 
-
         return inflate;
     }
 
