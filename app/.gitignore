@@ -13,6 +13,8 @@ google-services.json
 # Java class files
 *.class
 
+values/google_maps_api.xml
+
 # Generated files
 bin/
 gen/
