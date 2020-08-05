@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
             userName = user.getDisplayName();
         }
 
+        // improvements
         Toolbar toolbar = findViewById(R.id.topAppBar);
         setSupportActionBar(toolbar);
 
