@@ -33,6 +33,8 @@ public class Connect extends Fragment implements OnMapReadyCallback {
         fragmentTransaction.add(R.id.map, mapFragment);
         fragmentTransaction.commit();
 
+        //map fragment
+
         mapFragment.getMapAsync(this);
 
 
