@@ -35,4 +35,6 @@
     <string name="link_up">Link Account</string>
     <string name="user">user</string>
     <string name="sent">sent</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
