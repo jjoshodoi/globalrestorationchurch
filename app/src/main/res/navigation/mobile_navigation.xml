@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@+id/navigation_sermon">
+
+    <fragment
+        android:id="@+id/navigation_sermon"
+        android:name="com.example.globalrestorationchurch.ui.sermon.SermonFragment"
+        android:label="@string/title_sermons"
+        tools:layout="@layout/fragment_sermon"/>
+
+    <fragment
+        android:id="@+id/navigation_calendar"
+        android:name="com.example.globalrestorationchurch.ui.dashboard.DashboardFragment"
+        android:label="@string/title_calendar"
+        tools:layout="@layout/fragment_dashboard" />
+
+    <fragment
+        android:id="@+id/navigation_chat"
+        android:name="com.example.globalrestorationchurch.ui.chat.ChatFragment"
+        android:label="@string/title_chat"
+        tools:layout="@layout/fragment_chat" />
+
+    <fragment
+        android:id="@+id/navigation_giving"
+        android:name="com.example.globalrestorationchurch.ui.notifications.NotificationsFragment"
+        android:label="@string/title_giving"
+        tools:layout="@layout/fragment_notifications" />
+
+    <fragment
+        android:id="@+id/navigation_connect"
+        android:name="com.example.globalrestorationchurch.ui.connect.Connect"
+        android:label="@string/title_connect"
+        tools:layout="@layout/connect_fragment" />
+
+</navigation>
