@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
+import androidx.navigation.Navigation;
 
 import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
@@ -38,9 +39,13 @@ public class UserDetailsActivity extends AppCompatActivity implements NoticeDial
 
         Picasso.get().load(user.getPhotoUrl()).centerCrop().config(Bitmap.Config.RGB_565).fit().into(profileImage);
 
+//        signOut.setOnClickListener(view -> {
+//            DialogFragment newFragment = new NoticeDialogFragment(R.string.are_you_sure_signout);
+//            newFragment.show(getSupportFragmentManager(), SIGNOUT);
+//        });
+
         signOut.setOnClickListener(view -> {
-            DialogFragment newFragment = new NoticeDialogFragment(R.string.are_you_sure_signout);
-            newFragment.show(getSupportFragmentManager(), SIGNOUT);
+            Navigation.findNavController(view).navigate(R.id.fragment_form_template);
         });
 
         deleteAccount.setOnClickListener(view -> {
